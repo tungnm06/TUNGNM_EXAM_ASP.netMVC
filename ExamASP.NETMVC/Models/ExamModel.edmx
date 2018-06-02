@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClassRoom">
+          <Key>
+            <PropertyRef Name="ClassRoom" />
+          </Key>
+          <Property Name="ClassRoom" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="NameTeacher" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ExamDetail">
+          <Key>
+            <PropertyRef Name="ExamId" />
+          </Key>
+          <Property Name="ExamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="ExamDate" Type="nchar" MaxLength="10" />
+          <Property Name="ExamDuration" Type="nchar" MaxLength="10" />
+          <Property Name="ExamSubject" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClassRoom" Type="nchar" MaxLength="10" />
+          <Property Name="FacultyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ExamSubject">
+          <Key>
+            <PropertyRef Name="ExamSubject" />
+          </Key>
+          <Property Name="ExamSubject" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Faculty">
+          <Key>
+            <PropertyRef Name="FacultyName" />
+          </Key>
+          <Property Name="FacultyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_ExamDetail_ClassRoom">
+          <End Role="ClassRoom" Type="Self.ClassRoom" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassRoom">
+              <PropertyRef Name="ClassRoom" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="ClassRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamDetail_ExamSubject">
+          <End Role="ExamSubject" Type="Self.ExamSubject" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamSubject">
+              <PropertyRef Name="ExamSubject" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="ExamSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamDetail_Faculty">
+          <End Role="Faculty" Type="Self.Faculty" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculty">
+              <PropertyRef Name="FacultyName" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="FacultyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamModelStoreContainer">
+          <EntitySet Name="ClassRoom" EntityType="Self.ClassRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamDetail" EntityType="Self.ExamDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamSubject" EntityType="Self.ExamSubject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ExamDetail_ClassRoom" Association="Self.FK_ExamDetail_ClassRoom">
+            <End Role="ClassRoom" EntitySet="ClassRoom" />
+            <End Role="ExamDetail" EntitySet="ExamDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamDetail_ExamSubject" Association="Self.FK_ExamDetail_ExamSubject">
+            <End Role="ExamSubject" EntitySet="ExamSubject" />
+            <End Role="ExamDetail" EntitySet="ExamDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamDetail_Faculty" Association="Self.FK_ExamDetail_Faculty">
+            <End Role="Faculty" EntitySet="Faculty" />
+            <End Role="ExamDetail" EntitySet="ExamDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClassRoom">
+          <Key>
+            <PropertyRef Name="ClassRoom1" />
+          </Key>
+          <Property Name="ClassRoom1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="NameTeacher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ExamDetails" Relationship="Self.FK_ExamDetail_ClassRoom" FromRole="ClassRoom" ToRole="ExamDetail" />
+        </EntityType>
+        <EntityType Name="ExamDetail">
+          <Key>
+            <PropertyRef Name="ExamId" />
+          </Key>
+          <Property Name="ExamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="ExamDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ExamDuration" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ExamSubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClassRoom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FacultyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClassRoom1" Relationship="Self.FK_ExamDetail_ClassRoom" FromRole="ExamDetail" ToRole="ClassRoom" />
+          <NavigationProperty Name="ExamSubject1" Relationship="Self.FK_ExamDetail_ExamSubject" FromRole="ExamDetail" ToRole="ExamSubject" />
+          <NavigationProperty Name="Faculty" Relationship="Self.FK_ExamDetail_Faculty" FromRole="ExamDetail" ToRole="Faculty" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ExamSubject">
+          <Key>
+            <PropertyRef Name="ExamSubject1" />
+          </Key>
+          <Property Name="ExamSubject1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ExamDetails" Relationship="Self.FK_ExamDetail_ExamSubject" FromRole="ExamSubject" ToRole="ExamDetail" />
+        </EntityType>
+        <EntityType Name="Faculty">
+          <Key>
+            <PropertyRef Name="FacultyName" />
+          </Key>
+          <Property Name="FacultyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="Int32" />
+          <NavigationProperty Name="ExamDetails" Relationship="Self.FK_ExamDetail_Faculty" FromRole="Faculty" ToRole="ExamDetail" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_ExamDetail_ClassRoom">
+          <End Role="ClassRoom" Type="Self.ClassRoom" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassRoom">
+              <PropertyRef Name="ClassRoom1" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="ClassRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamDetail_ExamSubject">
+          <End Role="ExamSubject" Type="Self.ExamSubject" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamSubject">
+              <PropertyRef Name="ExamSubject1" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="ExamSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamDetail_Faculty">
+          <End Role="Faculty" Type="Self.Faculty" Multiplicity="0..1" />
+          <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculty">
+              <PropertyRef Name="FacultyName" />
+            </Principal>
+            <Dependent Role="ExamDetail">
+              <PropertyRef Name="FacultyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClassRooms" EntityType="Self.ClassRoom" />
+          <EntitySet Name="ExamDetails" EntityType="Self.ExamDetail" />
+          <EntitySet Name="ExamSubjects" EntityType="Self.ExamSubject" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_ExamDetail_ClassRoom" Association="Self.FK_ExamDetail_ClassRoom">
+            <End Role="ClassRoom" EntitySet="ClassRooms" />
+            <End Role="ExamDetail" EntitySet="ExamDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamDetail_ExamSubject" Association="Self.FK_ExamDetail_ExamSubject">
+            <End Role="ExamSubject" EntitySet="ExamSubjects" />
+            <End Role="ExamDetail" EntitySet="ExamDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamDetail_Faculty" Association="Self.FK_ExamDetail_Faculty">
+            <End Role="Faculty" EntitySet="Faculties" />
+            <End Role="ExamDetail" EntitySet="ExamDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamModelStoreContainer" CdmEntityContainer="ExamContext">
+          <EntitySetMapping Name="ClassRooms">
+            <EntityTypeMapping TypeName="ExamModel.ClassRoom">
+              <MappingFragment StoreEntitySet="ClassRoom">
+                <ScalarProperty Name="ClassRoom1" ColumnName="ClassRoom" />
+                <ScalarProperty Name="NameTeacher" ColumnName="NameTeacher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamDetails">
+            <EntityTypeMapping TypeName="ExamModel.ExamDetail">
+              <MappingFragment StoreEntitySet="ExamDetail">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ExamDate" ColumnName="ExamDate" />
+                <ScalarProperty Name="ExamDuration" ColumnName="ExamDuration" />
+                <ScalarProperty Name="ExamSubject" ColumnName="ExamSubject" />
+                <ScalarProperty Name="ClassRoom" ColumnName="ClassRoom" />
+                <ScalarProperty Name="FacultyName" ColumnName="FacultyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamSubjects">
+            <EntityTypeMapping TypeName="ExamModel.ExamSubject">
+              <MappingFragment StoreEntitySet="ExamSubject">
+                <ScalarProperty Name="ExamSubject1" ColumnName="ExamSubject" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faculties">
+            <EntityTypeMapping TypeName="ExamModel.Faculty">
+              <MappingFragment StoreEntitySet="Faculty">
+                <ScalarProperty Name="FacultyName" ColumnName="FacultyName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ExamModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

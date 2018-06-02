@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ClassRoom">
+    <Key>
+      <PropertyRef Name="ClassRoom" />
+    </Key>
+    <Property Name="ClassRoom" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="NameTeacher" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ExamDetail">
+    <Key>
+      <PropertyRef Name="ExamId" />
+    </Key>
+    <Property Name="ExamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" />
+    <Property Name="ExamDate" Type="nchar" MaxLength="10" />
+    <Property Name="ExamDuration" Type="nchar" MaxLength="10" />
+    <Property Name="ExamSubject" Type="nvarchar" MaxLength="50" />
+    <Property Name="ClassRoom" Type="nchar" MaxLength="10" />
+    <Property Name="FacultyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ExamSubject">
+    <Key>
+      <PropertyRef Name="ExamSubject" />
+    </Key>
+    <Property Name="ExamSubject" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Id" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="FacultyName" />
+    </Key>
+    <Property Name="FacultyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_ExamDetail_ClassRoom">
+    <End Role="ClassRoom" Type="Self.ClassRoom" Multiplicity="0..1" />
+    <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassRoom">
+        <PropertyRef Name="ClassRoom" />
+      </Principal>
+      <Dependent Role="ExamDetail">
+        <PropertyRef Name="ClassRoom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamDetail_ExamSubject">
+    <End Role="ExamSubject" Type="Self.ExamSubject" Multiplicity="0..1" />
+    <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamSubject">
+        <PropertyRef Name="ExamSubject" />
+      </Principal>
+      <Dependent Role="ExamDetail">
+        <PropertyRef Name="ExamSubject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamDetail_Faculty">
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="0..1" />
+    <End Role="ExamDetail" Type="Self.ExamDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculty">
+        <PropertyRef Name="FacultyName" />
+      </Principal>
+      <Dependent Role="ExamDetail">
+        <PropertyRef Name="FacultyName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamModelStoreContainer">
+    <EntitySet Name="ClassRoom" EntityType="Self.ClassRoom" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamDetail" EntityType="Self.ExamDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamSubject" EntityType="Self.ExamSubject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ExamDetail_ClassRoom" Association="Self.FK_ExamDetail_ClassRoom">
+      <End Role="ClassRoom" EntitySet="ClassRoom" />
+      <End Role="ExamDetail" EntitySet="ExamDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamDetail_ExamSubject" Association="Self.FK_ExamDetail_ExamSubject">
+      <End Role="ExamSubject" EntitySet="ExamSubject" />
+      <End Role="ExamDetail" EntitySet="ExamDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamDetail_Faculty" Association="Self.FK_ExamDetail_Faculty">
+      <End Role="Faculty" EntitySet="Faculty" />
+      <End Role="ExamDetail" EntitySet="ExamDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
